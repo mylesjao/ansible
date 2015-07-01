@@ -1,0 +1,4 @@
+---
+## initialization
+- name: Install ansible master public key to auth_keys for root 
+  authorized_key: user=vagrant key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}" 

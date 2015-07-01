@@ -1,0 +1,9 @@
+---
+- name: deploy infinispan cluster
+  hosts: ispn-cluster
+  remote_user: vagrant
+  sudo: yes
+  roles:
+  - base
+  - java
+#  - infinispan
