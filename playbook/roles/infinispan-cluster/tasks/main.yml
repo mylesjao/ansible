@@ -1,0 +1,51 @@
+---
+#create spark user
+- name: create ispn user
+  user:
+    name: "{{ ispn_user }}"
+    comment: linux user to operate infinispan-server
+
+# download
+- name: download infinispan-server distribution
+  #get_url: url=http://downloads.jboss.org/infinispan/7.2.3.Final/infinispan-server-7.2.3.Final-bin.zip dest={{ temp_dir }}/ispn-server.zip
+  get_url: url=http://192.168.101.135/infinispan-server-7.2.3.Final-bin.zip dest={{ temp_dir }}/ispn-server.zip
+
+# unarchive
+- name: unarchive infinispan-server distribution
+  unarchive: src={{ temp_dir }}/ispn-server.zip dest=/tmp copy=no
+
+# install
+- name: move unarchived infinispan-server to ispn-home if not exist 
+  command: mv {{ temp_dir }}/infinispan-server-7.2.3.Final {{ ispn_home }} creates={{ ispn_home }} removes={{ temp_dir }}/infinispan-server-7.2.3.Final
+
+# configure
+- name: ensure /etc/infinispan-server dir exists
+  file: path=/etc/infinispan-server state=directory
+
+- name: copy config to /etc/infinispan-server
+  template: src={{ item }} dest=/etc/infinispan-server/{{ item }} owner=root group=root mode=0644
+  with_items:
+    - infinispan-server.conf
+    - clustered.conf
+
+- name: copy ispn daemon script to /etc/init.d
+  copy: src=infinispan-server-lsb.sh dest=/etc/init.d/ispn-server owner=root group=root mode=0755
+
+# ensure permission
+- name: ensure all file permissions in adon folder is set
+  file: path={{ ispn_home }} owner={{ ispn_user }} group={{ ispn_user }} state=directory recurse=yes
+
+# stop
+- name: stop ispn-server
+  service: name=ispn-server state=stopped
+
+# start
+- name: start ispn-server
+  service: name=ispn-server state=started
+
+# clean
+- name: remove distribution
+  file: path={{ temp_dir }}/ispn-server.zip state=absent
+
+- name: remove unarchive directory
+  file: path={{ temp_dir }}/infinispan-server-7.2.3.Final state=absent

@@ -1,0 +1,4 @@
+---
+temp_dir: /tmp
+ispn_home: /usr/local/infinispan-server
+ispn_user: ispn

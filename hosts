@@ -1,2 +1,2 @@
 [ispn-cluster]
-192.168.10.10
+192.168.10.10 ip=192.168.10.10 node_name=ispn-node-1
