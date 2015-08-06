@@ -1,0 +1,9 @@
+---
+- name: install jenkins server
+  hosts: jenkins
+  remote_user: vagrant
+  sudo: yes
+  roles:
+  - base
+  - java
+  - jenkins
