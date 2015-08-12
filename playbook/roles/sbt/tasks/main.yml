@@ -1,0 +1,6 @@
+---
+- name: add sbt apt repository
+  apt_repository: repo='deb http://dl.bintray.com/sbt/debian /' state=present
+
+- name: install sbt
+  apt: name=sbt state=present force=yes

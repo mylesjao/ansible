@@ -1,0 +1,7 @@
+---
+- name: install docker
+  hosts: docker-machine-dev
+  remote_user: vagrant
+  sudo: yes
+  roles:
+  - docker
