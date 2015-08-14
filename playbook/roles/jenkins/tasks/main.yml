@@ -7,6 +7,3 @@
 
 - name: install jenkins server
   apt: name=jenkins state=present
-
-- name: add jenkins user to docker group
-  user: name=jenkins groups=docker

@@ -1,0 +1,8 @@
+---
+- name: install docker-registry
+  hosts: docker-registry
+  remote_user: vagrant
+  sudo: yes
+  roles:
+  - docker
+  - docker-registry

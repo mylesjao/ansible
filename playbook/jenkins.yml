@@ -8,3 +8,12 @@
   - java
   - sbt
   - jenkins
+  - docker
+
+- name: extra work after jenkins server installed
+  hosts: jenkins
+  remote_user: vagrant
+  sudo: yes
+  tasks:
+  - name: add jenkins user to docker group
+    user: name=jenkins groups=docker
